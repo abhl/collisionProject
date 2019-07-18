@@ -22,11 +22,13 @@ function draw(){
         text("RIP Refresh to restart", 500,250);
         noLoop();
     }
-    for(let i = 0; i < interactables.length;i++){
+    for(let i = interactables.length - 1; i > 0;i--){
         if(interactables[i].health > 0){ 
             interactables[i].animate();
-            for(let j = 0; j < interactables.length;j++){
+            for(let j = interactables.length - 1; j > 0;j--){
                 if(j != i) interactables[i].checkCollision(interactables[j]);
+                if(i != 0 && interactables[i].health == 0) interactables.splice(i,1);
+                if(j != 0 && interactables[j].health == 0) interactables.splice(j,1);
             }
         }
     }
