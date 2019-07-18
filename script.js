@@ -55,7 +55,7 @@ class Interactable{
     constructor(imagePath, frameDelay, frameCount, posX, posY, jumpChance,movementSpeed,height,width,health){
         this.gif = [];
         for(let i = 0; i < frameCount; i++){
-            this.gif[i] = loadImage(`assets/${imagePath}/frame_${i.pad(frameCount.toString().length)}_delay-0${frameDelay.toString()}s.gif`);
+            this.gif[i] = loadImage(`assets/${imagePath}/frame_${i.pad(frameCount.toString().length)}_delay-0${frameDelay.toString()}s.gif`,width,height);
             this.gif[i].resize(this.width,this.height);
         }
         this.x = posX;
