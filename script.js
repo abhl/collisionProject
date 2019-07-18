@@ -3,6 +3,7 @@ let globalFrame = 0;
 let charmander;
 let interactables = [];
 let lastAttack = 0;
+let enemyHealth = 3;
 function preload(){
     back = loadImage('assets/background.jpg');
 }
@@ -13,7 +14,7 @@ function setup(){
     background(0);
     image(back,0,0);
     charmander = new Interactable('charmander','.05',107,100,250,0,0,88,86,10);
-    interactables[0] = charmander;
+    poliwag = new Interactable('poliwag',.05,79,850,300,.001,10,34,54,enemyHealth);
 }
 function draw(){
     if(interactables[0].health == 0) {
@@ -32,9 +33,14 @@ function draw(){
     if(keyIsDown('32') && charmander.yVelocity != 0){
         charmander.yVelocity = 30;
     }
-    if(keyIsDown('70') && (lastAttack == 0 || globalFrame - lastAttack >= 60)){
+    if(keyIsDown('70') && (lastAttack == 0 || globalFrame - lastAttack >= 60 / enemyHealth)){
         lastAttack = globalFrame;
         interactables.push(new Interactable('fireball',.1,5,200,250,0,30,111,233,1));
+    }
+    if(poliwag.health <= 0){
+        poliwag.x = 850;
+        poliwag.y = 300;
+        poliwag.health = enemyHealth++;
     }
     globalFrame++;
 }
@@ -67,7 +73,7 @@ class Interactable{
         if(this.yVelocity > 0) this.yVelocity -= 3;
     }
     animate(){
-        image(this.gif[globalFrame % frameCount],posX,posY);
+        image(this.gif[globalFrame % frameCount],this.posX,this.posY);
     }
     checkCollision(otherInteractable){
         if (this.x > otherInteractable.x + otherInteractable.width || this.x + this.width < otherInteractable.x || this.y > otherInteractable.y + otherInteractable.height || this.y + this.height < otherInteractable.y) {
